@@ -4,34 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AutoX - Vertical Swipe Cards with Navigation</title>
-  <link rel="stylesheet" href="frontend/shared/global.css" />
+  <link rel="stylesheet" href="../shared/global.css" />
 </head>
 <body>
 
   <header class="header">
     <div class="logo">AutoX</div>
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
   </header>
 
   <main>
     <div class="carousel-wrapper">
       <section class="vertical-carousel" tabindex="0" aria-label="Services navigation">
-        <article class="card" role="button" aria-pressed="false" data-type="service">
+        <article class="card" role="button" aria-pressed="false" data-type="service" tabindex="0" onclick="goToBooking('service')" onkeypress="if(event.key==='Enter'){goToBooking('service')}">
           <h2>🔧 Book a Service</h2>
           <p>Schedule routine maintenance for your car.</p>
-          <button onclick="goToBooking('service')">Book Service</button>
+          <button type="button" onclick="goToBooking('service')">Book Service</button>
         </article>
 
-        <article class="card" role="button" aria-pressed="false" data-type="recovery">
+        <article class="card" role="button" aria-pressed="false" data-type="recovery" tabindex="0" onclick="goToBooking('recovery')" onkeypress="if(event.key==='Enter'){goToBooking('recovery')}">
           <h2>🚨 Emergency Recovery</h2>
           <p>Get quick help when your car breaks down.</p>
-          <button onclick="goToBooking('recovery')">Request Recovery</button>
+          <button type="button" onclick="goToBooking('recovery')">Request Recovery</button>
         </article>
 
-        <article class="card" role="button" aria-pressed="false" data-type="inspection">
+        <article class="card" role="button" aria-pressed="false" data-type="inspection" tabindex="0" onclick="goToBooking('inspection')" onkeypress="if(event.key==='Enter'){goToBooking('inspection')}">
           <h2>🧰 Diagnostics & Inspection</h2>
           <p>Mobile check-ups and fault diagnostics.</p>
-          <button onclick="goToBooking('inspection')">Get Diagnostics</button>
+          <button type="button" onclick="goToBooking('inspection')">Get Diagnostics</button>
         </article>
       </section>
 
@@ -49,7 +49,7 @@
     }
 
     function goToBooking(type) {
-      window.location.href = `shared/booking.html?type=${encodeURIComponent(type)}`;
+      window.location.href = `booking.html?type=${encodeURIComponent(type)}`;
     }
 
     document.addEventListener("DOMContentLoaded", () => {
