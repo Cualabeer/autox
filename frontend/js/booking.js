@@ -34,24 +34,24 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
 
     case "recovery":
-  title.textContent = "Emergency Recovery Request";
-  formHTML = `
-    <form class="booking-form" id="recovery-form">
-      <input required type="text" name="name" placeholder="Name" />
-      <input required type="tel" name="phone" placeholder="Phone Number" />
-      <input required type="text" name="reg" placeholder="Car Registration" />
-      
-      <label for="gps-location">GPS Coordinates (auto-detected):</label>
-      <input type="text" id="gps-location" name="gpsLocation" readonly placeholder="Waiting for GPS..." />
-      
-      <label for="manual-location">Or enter your location manually:</label>
-      <input type="text" id="manual-location" name="location" placeholder="Address or Location" />
-      
-      <textarea name="notes" placeholder="What happened?"></textarea>
-      <button type="submit">Request Recovery</button>
-    </form>
-  `;
-  break;
+      title.textContent = "Emergency Recovery Request";
+      formHTML = `
+        <form class="booking-form" id="recovery-form">
+          <input required type="text" name="name" placeholder="Name" />
+          <input required type="tel" name="phone" placeholder="Phone Number" />
+          <input required type="text" name="reg" placeholder="Car Registration" />
+          
+          <label for="gps-location">GPS Coordinates (auto-detected):</label>
+          <input type="text" id="gps-location" name="gpsLocation" readonly placeholder="Waiting for GPS..." />
+          
+          <label for="manual-location">Or enter your location manually:</label>
+          <input type="text" id="manual-location" name="location" placeholder="Address or Location" />
+          
+          <textarea name="notes" placeholder="What happened?"></textarea>
+          <button type="submit">Request Recovery</button>
+        </form>
+      `;
+      break;
 
     case "inspection":
       title.textContent = "Pre-Purchase Inspection Booking";
@@ -74,4 +74,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   container.innerHTML = formHTML;
+
+  // GPS logic for Emergency Recovery form
+  if (type.toLowerCase() === "recovery") {
+    const gpsInput = document.getElementById("gps-location");
+    if (!gpsInput) return;
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          gpsInput.value = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+        },
+        (error) => {
+          gpsInput.value = "Unable to retrieve GPS location";
+        },
+        { timeout: 10000 }
+      );
+    } else {
+      gpsInput.value = "Geolocation not supported";
+    }
+  }
 });
