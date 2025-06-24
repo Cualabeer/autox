@@ -4,92 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AutoX - Get Started</title>
-  <link rel="stylesheet" href="shared/global.css" />
-  <style>
-    /* Carousel container */
-    .carousel {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .carousel::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Each card */
-    .card {
-      flex: 0 0 80%;
-      scroll-snap-align: start;
-      background: #f7f7f7;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card:hover {
-      background-color: #eaeaea;
-    }
-    .card h2 {
-      color: #003f88;
-      margin-bottom: 0.5rem;
-    }
-    .card p {
-      color: #333;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .card button {
-      background-color: #ff6600;
-      color: white;
-      border: none;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: background-color 0.3s ease;
-    }
-    .card button:hover {
-      background-color: #e65c00;
-    }
-
-    /* Responsive: smaller cards on desktop */
-    @media(min-width: 768px) {
-      .card {
-        flex: 0 0 30%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/shared/global.css" />
 </head>
 <body>
 
   <header class="header">
     <div class="logo">AutoX</div>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
   </header>
 
   <main>
     <section class="carousel" aria-label="Services navigation">
-      <article class="card" tabindex="0" aria-pressed="false">
+      <article class="card" tabindex="0" role="button" aria-pressed="false">
         <h2>🔧 Book a Service</h2>
         <p>Schedule routine maintenance for your car.</p>
         <button onclick="goToBooking('service')">Book Service</button>
       </article>
 
-      <article class="card" tabindex="0" aria-pressed="false">
+      <article class="card" tabindex="0" role="button" aria-pressed="false">
         <h2>🚨 Emergency Recovery</h2>
         <p>Get quick help when your car breaks down.</p>
         <button onclick="goToBooking('recovery')">Request Recovery</button>
       </article>
 
-      <article class="card" tabindex="0" aria-pressed="false">
+      <article class="card" tabindex="0" role="button" aria-pressed="false">
         <h2>🧰 Diagnostics & Inspection</h2>
         <p>Mobile check-ups and fault diagnostics.</p>
         <button onclick="goToBooking('inspection')">Get Diagnostics</button>
@@ -98,8 +36,11 @@
   </main>
 
   <script>
+    function toggleMenu() {
+      alert("Menu clicked.");
+    }
+
     function goToBooking(type) {
-      // Redirect or open booking page/modal with preselected type
       window.location.href = `/booking.html?type=${encodeURIComponent(type)}`;
     }
   </script>
