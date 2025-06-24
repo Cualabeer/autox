@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoX - Get Started</title>
-  <link rel="stylesheet" href="/shared/global.css" />
+  <title>AutoX - Vertical Swipe Cards</title>
+  <link rel="stylesheet" href="shared/global.css" />
 </head>
 <body>
 
@@ -14,20 +14,20 @@
   </header>
 
   <main>
-    <section class="carousel" aria-label="Services navigation">
-      <article class="card" tabindex="0" role="button" aria-pressed="false">
+    <section class="vertical-carousel" aria-label="Services navigation">
+      <article class="card" tabindex="0" role="button" aria-pressed="false" onclick="goToBooking('service')">
         <h2>🔧 Book a Service</h2>
         <p>Schedule routine maintenance for your car.</p>
         <button onclick="goToBooking('service')">Book Service</button>
       </article>
 
-      <article class="card" tabindex="0" role="button" aria-pressed="false">
+      <article class="card" tabindex="0" role="button" aria-pressed="false" onclick="goToBooking('recovery')">
         <h2>🚨 Emergency Recovery</h2>
         <p>Get quick help when your car breaks down.</p>
         <button onclick="goToBooking('recovery')">Request Recovery</button>
       </article>
 
-      <article class="card" tabindex="0" role="button" aria-pressed="false">
+      <article class="card" tabindex="0" role="button" aria-pressed="false" onclick="goToBooking('inspection')">
         <h2>🧰 Diagnostics & Inspection</h2>
         <p>Mobile check-ups and fault diagnostics.</p>
         <button onclick="goToBooking('inspection')">Get Diagnostics</button>
