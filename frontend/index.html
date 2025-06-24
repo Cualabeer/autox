@@ -2,35 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AutoX – Mobile Mechanic Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoX - Home</title>
   <link rel="stylesheet" href="./shared/global.css" />
+  <style>
+    /* Example button styling consistent with your theme */
+    .btn-primary {
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: #005fa3;
+      outline: none;
+    }
+    header nav a {
+      color: #0077cc;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+    header nav a:hover,
+    header nav a:focus {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <div class="logo">AutoX</div>
     <nav class="nav">
-      <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <!-- other menu links -->
     </nav>
   </header>
 
   <main class="main-content">
-    <h1>Fast. Reliable. Mobile Mechanic Services.</h1>
-    <p>Select the service you need below:</p>
+    <h1>Welcome to AutoX</h1>
+    <p>Your trusted partner for all car servicing needs.</p>
 
-    <div class="service-buttons">
-      <a href="booking.html?type=routine" class="btn blue">Routine Service</a>
-      <a href="booking.html?type=recovery" class="btn orange">Emergency Recovery</a>
-      <a href="booking.html?type=inspection" class="btn grey">Pre-Purchase Inspection</a>
-    </div>
+    <a href="services.html" class="btn-primary" aria-label="View all services">
+      View Our Services
+    </a>
+
+    <!-- Other homepage content -->
   </main>
 
-  <footer class="site-footer">
-    &copy; 2025 AutoX. All rights reserved.
-  </footer>
-
-  <script src="./js/main.js"></script>
+  <footer class="site-footer">&copy; 2025 AutoX</footer>
 </body>
 </html>
