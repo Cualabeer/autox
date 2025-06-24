@@ -1,24 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const type = params.get("type");
-
-  const routine = document.getElementById("routine-form");
-  const recovery = document.getElementById("recovery-form");
-  const inspection = document.getElementById("inspection-form");
+  const type = new URLSearchParams(window.location.search).get("type");
+  const container = document.getElementById("form-container");
   const title = document.getElementById("form-title");
 
-  if (type === "routine") {
-    routine.classList.remove("hidden");
-    title.textContent = "Routine Service Booking";
-  } else if (type === "recovery") {
-    recovery.classList.remove("hidden");
-    title.textContent = "Emergency Recovery Request";
-  } else if (type === "inspection") {
-    inspection.classList.remove("hidden");
-    title.textContent = "Pre-Purchase Inspection Booking";
-  } else {
-    title.textContent = "Invalid Booking Type";
+  if (!type) {
+    container.innerHTML = `<p>No service type selected.</p>`;
+    return;
   }
 
-  // Optional: handle form submissions (e.g., send to backend)
+  let formHTML = "";
+  switch (type) {
+    case "routine":
+      title.textContent = "Routine Service Booking";
+      formHTML = `
+        <form class="booking-form">
+          <input required type="text" placeholder="Name" name="name" />
+          <input required type="tel" placeholder="Phone Number" name="phone" />
+          <input required type="text" placeholder="Car Registration" name="reg" />
+          <input required type="datetime-local" name="time" />
+          <textarea name="notes" placeholder="Describe any issues or preferences"></textarea>
+          <input required type="text" placeholder="Address or Location" name="location" />
+          <button type="submit">Book Routine Service</button>
+        </form>
+      `;
+      break;
+
+    case "recovery":
+      title.textContent = "Emergency Recovery";
+      formHTML = `
+        <form class="booking-form">
+          <input required type="text" placeholder="Name" name="name" />
+          <input required type="tel" placeholder="Phone Number" name="phone" />
+          <input required type="text" placeholder="Car Registration" name="reg" />
+          <input required type="text" placeholder="Location or GPS" name="location" />
+          <textarea name="notes" placeholder="What happened?"></textarea>
+          <button type="submit">Request Recovery</button>
+        </form>
+      `;
+      break;
+
+    case "inspection":
+      title.textContent = "Pre-Purchase Inspection";
+      formHTML = `
+        <form class="booking-form">
+          <input required type="text" placeholder="Your Name" name="name" />
+          <input required type="tel" placeholder="Phone Number" name="phone" />
+          <input required type="text" placeholder="Car Registration (if known)" name="reg" />
+          <input required type="datetime-local" name="time" />
+          <input required type="text" placeholder="Vehicle Location or Seller Address" name="location" />
+          <textarea name="notes" placeholder="Car details or seller contact"></textarea>
+          <button type="submit">Book Inspection</button>
+        </form>
+      `;
+      break;
+
+    default:
+      title.textContent = "Unknown Service";
+      formHTML = `<p>Invalid service type in URL.</p>`;
+  }
+
+  container.innerHTML = formHTML;
 });
