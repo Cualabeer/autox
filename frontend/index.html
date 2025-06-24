@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- Header -->
   <header class="site-header">
     <div class="container">
       <div class="logo">AutoX</div>
@@ -23,6 +24,7 @@
     </div>
   </header>
 
+  <!-- Main Hero -->
   <main>
     <section class="hero">
       <div class="container">
@@ -67,27 +69,22 @@
     </div>
   </div>
 
+  <!-- JS Script -->
   <script>
-    // Toggle modal visibility
     function toggleModal() {
       const modal = document.getElementById('bookingModal');
-      if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-      } else {
-        modal.style.display = 'flex';
-      }
+      modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
     }
 
-    // Mobile nav toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
+
     hamburger.addEventListener('click', () => {
       const expanded = hamburger.getAttribute('aria-expanded') === 'true';
       hamburger.setAttribute('aria-expanded', !expanded);
       navLinks.classList.toggle('show');
     });
 
-    // Submit booking form placeholder
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
       e.preventDefault();
       alert('Booking submitted! (Backend integration coming soon)');
