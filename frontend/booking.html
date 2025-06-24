@@ -1,436 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AutoX Booking</title>
-<link rel="stylesheet" href="shared/global.css" />
-<style>
-  /* Additional styles for booking page */
-  main {
-    max-width: 600px;
-    margin: 2rem auto 5rem auto;
-    padding: 0 1rem;
-  }
-  label {
-    font-weight: 600;
-    color: #003f88;
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-  select, input[type="text"], input[type="datetime-local"], textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #aaa;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
-    box-sizing: border-box;
-  }
-  select:focus, input[type="text"]:focus, input[type="datetime-local"]:focus, textarea:focus {
-    border-color: #ff6600;
-    outline: none;
-  }
-  textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-  button[type="submit"], button.gps-btn {
-    background-color: #ff6600;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  button[type="submit"]:hover,
-  button[type="submit"]:focus,
-  button.gps-btn:hover,
-  button.gps-btn:focus {
-    background-color: #e65c00;
-    outline: none;
-  }
-  .gps-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .gps-container input {
-    flex: 1;
-  }
-  #gpsStatus, #gpsStatusRecovery {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: #555;
-    min-height: 1.2em;
-  }
-  #basketOverlay {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 70px;
-    height: 70px;
-    background-color: #ff6600;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-    color: white;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9rem;
-    user-select: none;
-    cursor: default;
-    z-index: 10000;
-    text-align: center;
-    padding: 8px;
-    line-height: 1.2;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  @media (max-width: 600px) {
-    main {
-      margin: 1rem auto 6rem auto;
-    }
-    #basketOverlay {
-      width: 60px;
-      height: 60px;
-      font-size: 0.8rem;
-      padding: 6px;
-    }
-    button[type="submit"], button.gps-btn {
-      font-size: 1rem;
-      padding: 0.6rem 1.2rem;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoX Booking</title>
+  <link rel="stylesheet" href="shared/global.css" />
+  <script defer src="booking.js"></script>
 </head>
 <body>
+  <header class="header">
+    <div class="logo">AutoX</div>
+  </header>
 
-<header class="header">
-  <div class="logo">AutoX</div>
-</header>
+  <main>
+    <h1 id="bookingTitle">Book a Service</h1>
 
-<main>
-  <h1 id="bookingTitle">Booking</h1>
+    <!-- Service Dropdown -->
+    <div id="serviceCategoryContainer">
+      <label for="mainServiceType">Select Service Category</label>
+      <select id="mainServiceType" name="mainServiceType" required>
+        <option value="">-- Choose Service Category --</option>
+        <option value="routine">Routine Service</option>
+        <option value="recovery">Emergency Recovery</option>
+        <option value="inspection">Diagnostics & Inspection</option>
+      </select>
+      <p id="mainServiceDesc"></p>
+    </div>
 
-  <!-- Main Service Selection -->
-  <label for="mainServiceType">Select Service Category</label>
-  <select id="mainServiceType" name="mainServiceType" required aria-describedby="mainServiceDesc">
-    <option value="">-- Choose Service Category --</option>
-    <option value="routine">Routine Service</option>
-    <option value="recovery">Emergency Recovery</option>
-    <option value="inspection">Diagnostics & Inspection</option>
-  </select>
-  <p id="mainServiceDesc" style="color:#003f88; font-weight:600; margin-top:0.3rem;"></p>
+    <!-- Detailed Service Dropdown -->
+    <div id="detailedServiceContainer" style="display:none;">
+      <label for="detailedServiceType">Select Specific Service</label>
+      <select id="detailedServiceType" name="detailedServiceType"></select>
+      <p id="detailedServiceDesc"></p>
+    </div>
 
-  <!-- Routine detailed services dropdown -->
-  <div id="detailedServiceContainer" style="display:none; margin-top: 1rem;">
-    <label for="detailedServiceType">Select Specific Service</label>
-    <select id="detailedServiceType" name="detailedServiceType" aria-describedby="detailedServiceDesc"></select>
-    <p id="detailedServiceDesc" style="color:#003f88; font-weight:600; margin-top:0.3rem;"></p>
+    <!-- Routine / Inspection Form -->
+    <form id="routineForm" style="display:none;">
+      <input type="text" id="name" name="name" placeholder="Your Name" required />
+      <input type="tel" id="phone" name="phone" placeholder="Phone Number" required />
+      <input type="datetime-local" id="datetime" name="datetime" required />
+      <div>
+        <input type="text" id="address" name="address" placeholder="Enter address or use 📍" required />
+        <button type="button" id="gpsBtn">📍</button>
+        <div id="gpsStatus"></div>
+      </div>
+      <textarea id="details" name="details" placeholder="Details..."></textarea>
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <!-- Recovery Form -->
+    <form id="recoveryForm" style="display:none;">
+      <input type="text" id="recLocation" name="recLocation" placeholder="Your Location" required />
+      <button type="button" id="gpsBtnRecovery">📍</button>
+      <div id="gpsStatusRecovery"></div>
+      <input type="text" id="recName" name="recName" placeholder="Your Name" required />
+      <input type="text" id="carReg" name="carReg" placeholder="Car Reg" required />
+      <input type="tel" id="recPhone" name="recPhone" placeholder="Phone Number" required />
+      <button type="submit">Submit Recovery</button>
+    </form>
+  </main>
+
+  <div id="basketOverlay">
+    <span id="basketService">Service</span>
+    <span id="basketPrice">£0</span>
+    <span id="basketCount">0 items</span>
   </div>
-
-  <!-- Routine / Inspection full form -->
-  <form id="routineForm" style="display:none; margin-top:1rem;" novalidate>
-    <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required autocomplete="name" />
-
-    <label for="phone">Phone Number</label>
-    <input type="text" id="phone" name="phone" required autocomplete="tel" />
-
-    <label for="datetime">Preferred Date & Time</label>
-    <input type="datetime-local" id="datetime" name="datetime" required />
-
-    <label for="address">Address or GPS Coordinates</label>
-    <div class="gps-container">
-      <input
-        type="text"
-        id="address"
-        name="address"
-        placeholder="123 Main St or lat,long"
-        required
-        autocomplete="street-address"
-      />
-      <button type="button" id="gpsBtn" class="gps-btn" title="Use my current location">📍</button>
-    </div>
-    <div id="gpsStatus" role="status" aria-live="polite"></div>
-
-    <label for="details">Additional Details</label>
-    <textarea id="details" name="details" placeholder="Describe your service needs..."></textarea>
-
-    <input type="hidden" id="servicePrice" name="servicePrice" value="" />
-
-    <button type="submit">Submit Booking</button>
-  </form>
-
-  <!-- Recovery minimal form -->
-  <form id="recoveryForm" style="display:none; margin-top:1rem;" novalidate>
-    <label for="recLocation">Location (Address or GPS)</label>
-    <div class="gps-container">
-      <input
-        type="text"
-        id="recLocation"
-        name="recLocation"
-        placeholder="Enter location or lat,long"
-        required
-        autocomplete="street-address"
-      />
-      <button type="button" id="gpsBtnRecovery" class="gps-btn" title="Use my current location">📍</button>
-    </div>
-    <div id="gpsStatusRecovery" role="status" aria-live="polite"></div>
-
-    <label for="recName">Full Name</label>
-    <input type="text" id="recName" name="recName" required autocomplete="name" />
-
-    <label for="carReg">Car Registration Number</label>
-    <input type="text" id="carReg" name="carReg" required autocomplete="off" />
-
-    <label for="recPhone">Phone Number</label>
-    <input type="text" id="recPhone" name="recPhone" required autocomplete="tel" />
-
-    <input type="hidden" id="servicePriceRecovery" name="servicePriceRecovery" value="" />
-
-    <button type="submit">Submit Recovery Request</button>
-  </form>
-</main>
-
-<!-- Basket overlay bottom-right -->
-<div
-  id="basketOverlay"
-  aria-live="polite"
-  aria-atomic="true"
-  role="region"
-  tabindex="0"
->
-  <span id="basketService" style="font-size:1rem;">Service</span>
-  <span id="basketPrice" style="font-size:1.2rem;">£0</span>
-  <span id="basketCount" style="font-size:0.8rem; margin-top:4px;">0 items</span>
-</div>
-
-<script>
-  const pricing = {
-    routine: {
-      name: "Routine Service",
-      priceText: `General service including checks and minor maintenance. Starting at £50.`,
-      priceValue: 50
-    },
-    recovery: {
-      name: "Emergency Recovery",
-      priceText: "Call-out fees apply; pricing varies by distance and urgency.",
-      priceValue: 0
-    },
-    inspection: {
-      name: "Diagnostics & Inspection",
-      priceText: "Diagnostics start at £70; includes detailed vehicle inspection.",
-      priceValue: 70
-    }
-  };
-
-  const detailedRoutineServices = {
-    brakeDiscsPads: {
-      name: "Brake Discs & Pads (Front or Rear)",
-      priceText: "Complete replacement of brake discs and pads. £100 including labor.",
-      priceValue: 100
-    },
-    brakePadsOnly: {
-      name: "Brake Pads (Front or Rear)",
-      priceText: "Brake pad replacement only. £70 including labor.",
-      priceValue: 70
-    },
-    oilFilterChange: {
-      name: "Oil & Filter Change",
-      priceText: "Standard oil and filter change service. £50.",
-      priceValue: 50
-    },
-    sparkPlugReplacement: {
-      name: "Spark Plug Replacement (Petrol)",
-      priceText: "Replace spark plugs on petrol engines. Approx. £85 including parts and labor.",
-      priceValue: 85
-    },
-    coolantFlush: {
-      name: "Coolant Flush & Refill",
-      priceText: "Flush and refill cooling system. Approx. £95 including labor.",
-      priceValue: 95
-    }
-  };
-
-  // DOM refs
-  const mainSelect = document.getElementById('mainServiceType');
-  const detailedContainer = document.getElementById('detailedServiceContainer');
-  const detailedSelect = document.getElementById('detailedServiceType');
-  const detailedDesc = document.getElementById('detailedServiceDesc');
-  const mainDesc = document.getElementById('mainServiceDesc');
-
-  const routineForm = document.getElementById('routineForm');
-  const recoveryForm = document.getElementById('recoveryForm');
-
-  const basketOverlay = document.getElementById('basketOverlay');
-  const basketService = document.getElementById('basketService');
-  const basketPrice = document.getElementById('basketPrice');
-  const basketCount = document.getElementById('basketCount');
-
-  // Update basket overlay text
-  function updateBasket(serviceName, priceValue) {
-    basketService.textContent = serviceName || "None";
-    basketPrice.textContent = priceValue > 0 ? `£${priceValue}` : "Varies";
-    basketCount.textContent = "1 item";
-  }
-
-  // Hide all forms and detailed dropdown container
-  function clearFormVisibility() {
-    detailedContainer.style.display = 'none';
-    routineForm.style.display = 'none';
-    recoveryForm.style.display = 'none';
-    mainDesc.textContent = '';
-    detailedDesc.textContent = '';
-  }
-
-  // Populate routine detailed services dropdown options
-  function populateDetailedServices() {
-    detailedSelect.innerHTML = '';
-    for (const key in detailedRoutineServices) {
-      const option = document.createElement('option');
-      option.value = key;
-      option.textContent = `${detailedRoutineServices[key].name} — £${detailedRoutineServices[key].priceValue}`;
-      detailedSelect.appendChild(option);
-    }
-  }
-
-  // When main category changes
-  mainSelect.addEventListener('change', () => {
-    clearFormVisibility();
-    const val = mainSelect.value;
-    if (!val) {
-      updateBasket("No service selected", 0);
-      return;
-    }
-    mainDesc.textContent = pricing[val].priceText;
-
-    if (val === 'routine') {
-      detailedContainer.style.display = 'block';
-      routineForm.style.display = 'block';
-      populateDetailedServices();
-
-      // Select first detailed service by default
-      const firstDetailKey = detailedSelect.options[0]?.value;
-      detailedSelect.value = firstDetailKey;
-      detailedDesc.textContent = detailedRoutineServices[firstDetailKey].priceText;
-      updateBasket(detailedRoutineServices[firstDetailKey].name, detailedRoutineServices[firstDetailKey].priceValue);
-
-    } else if (val === 'recovery') {
-      recoveryForm.style.display = 'block';
-      updateBasket(pricing[val].name, pricing[val].priceValue);
-
-    } else if (val === 'inspection') {
-      routineForm.style.display = 'block';
-      updateBasket(pricing[val].name, pricing[val].priceValue);
-    }
-  });
-
-  // When detailed routine service changes
-  detailedSelect.addEventListener('change', () => {
-    const selectedKey = detailedSelect.value;
-    detailedDesc.textContent = detailedRoutineServices[selectedKey].priceText;
-    updateBasket(detailedRoutineServices[selectedKey].name, detailedRoutineServices[selectedKey].priceValue);
-  });
-
-  // GPS button logic (routine form)
-  document.getElementById('gpsBtn').addEventListener('click', () => {
-    const gpsStatus = document.getElementById('gpsStatus');
-    const addressInput = document.getElementById('address');
-    if (!navigator.geolocation) {
-      gpsStatus.textContent = "Geolocation not supported.";
-      return;
-    }
-    gpsStatus.textContent = "Locating...";
-    navigator.geolocation.getCurrentPosition(position => {
-      const {latitude, longitude} = position.coords;
-      gpsStatus.textContent = `Coordinates: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}. Looking up address...`;
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.display_name) {
-            addressInput.value = data.display_name;
-            gpsStatus.textContent = "Address autofilled.";
-          } else {
-            addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-            gpsStatus.textContent = "Coordinates filled.";
-          }
-        }).catch(() => {
-          addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-          gpsStatus.textContent = "Error fetching address; coords filled.";
-        });
-    }, err => {
-      gpsStatus.textContent = `Error: ${err.message}`;
-    });
-  });
-
-  // GPS button logic (recovery form)
-  document.getElementById('gpsBtnRecovery').addEventListener('click', () => {
-    const gpsStatus = document.getElementById('gpsStatusRecovery');
-    const addressInput = document.getElementById('recLocation');
-    if (!navigator.geolocation) {
-      gpsStatus.textContent = "Geolocation not supported.";
-      return;
-    }
-    gpsStatus.textContent = "Locating...";
-    navigator.geolocation.getCurrentPosition(position => {
-      const {latitude, longitude} = position.coords;
-      gpsStatus.textContent = `Coordinates: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}. Looking up address...`;
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.display_name) {
-            addressInput.value = data.display_name;
-            gpsStatus.textContent = "Address autofilled.";
-          } else {
-            addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-            gpsStatus.textContent = "Coordinates filled.";
-          }
-        }).catch(() => {
-          addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-          gpsStatus.textContent = "Error fetching address; coords filled.";
-        });
-    }, err => {
-      gpsStatus.textContent = `Error: ${err.message}`;
-    });
-  });
-
-  // Submit handlers
-  routineForm.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!routineForm.checkValidity()) {
-      routineForm.reportValidity();
-      return;
-    }
-    alert("Routine/Inspection booking submitted. Thank you!");
-    routineForm.reset();
-    // Reset basket
-    updateBasket("No service selected", 0);
-    clearFormVisibility();
-    mainSelect.value = '';
-  });
-
-  recoveryForm.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!recoveryForm.checkValidity()) {
-      recoveryForm.reportValidity();
-      return;
-    }
-    alert("Recovery request submitted. Help is on the way!");
-    recoveryForm.reset();
-    updateBasket("No service selected", 0);
-    clearFormVisibility();
-    mainSelect.value = '';
-  });
-
-  // Initialize basket
-  updateBasket("No service selected", 0);
-</script>
-
 </body>
 </html>
