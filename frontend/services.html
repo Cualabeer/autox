@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select a Service – AutoX</title>
+  <link rel="stylesheet" href="./shared/global.css" />
+  <style>
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 600px;
+      margin: 2rem auto;
+    }
+
+    .service-button {
+      background: white;
+      border: 2px solid #0077cc;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      color: #003366;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-button:hover,
+    .service-button:focus {
+      background-color: #0077cc;
+      color: white;
+      outline: none;
+    }
+
+    .service-button svg {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0.5rem;
+      fill: currentColor;
+    }
+
+    @media (max-width: 480px) {
+      .service-grid {
+        grid-template-columns: repeat(1, 1fr);
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">AutoX</div>
+    <nav class="nav">
+      <a href="./index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h1>Select a Service</h1>
+    <div class="service-grid" role="list">
+      <button class="service-button" data-service="routine" role="listitem" aria-label="Routine Service">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM11 6h2v6h-2V6zm0 8h2v2h-2v-2z"/></svg>
+        Routine Service
+      </button>
+
+      <button class="service-button" data-service="recovery" role="listitem" aria-label="Emergency Recovery">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11h3v2H3v-2zm15-7h2v12h-2V4zm-6 5h2v7h-2v-7z"/></svg>
+        Emergency Recovery
+      </button>
+
+      <button class="service-button" data-service="inspection" role="listitem" aria-label="Pre-Purchase Inspection">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 12h3v7h14v-7h3L12 3z"/></svg>
+        Pre-Purchase Inspection
+      </button>
+
+      <button class="service-button" data-service="oil-change" role="listitem" aria-label="Oil Change">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h12v2H6v-2zM12 2a3 3 0 00-3 3v4h6V5a3 3 0 00-3-3z"/></svg>
+        Oil Change
+      </button>
+
+      <button class="service-button" data-service="battery" role="listitem" aria-label="Battery Replacement">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v20h10V2H7zm2 18H9v-6h2v6zm4 0h-2v-6h2v6z"/></svg>
+        Battery Replacement
+      </button>
+
+      <button class="service-button" data-service="tire" role="listitem" aria-label="Tire Repair">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+        Tire Repair
+      </button>
+
+      <button class="service-button" data-service="brakes" role="listitem" aria-label="Brake Service">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h4v18h-4V3z"/></svg>
+        Brake Service
+      </button>
+
+      <button class="service-button" data-service="engine" role="listitem" aria-label="Engine Diagnostics">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7l5 5-5 5V7z"/></svg>
+        Engine Diagnostics
+      </button>
+
+      <button class="service-button" data-service="aircon" role="listitem" aria-label="Air Conditioning">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10h8v4H8v-4z"/></svg>
+        Air Conditioning
+      </button>
+    </div>
+  </main>
+
+  <footer class="site-footer">&copy; 2025 AutoX</footer>
+
+  <script>
+    document.querySelectorAll(".service-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const service = button.getAttribute("data-service");
+        window.location.href = `booking.html?type=${encodeURIComponent(service)}`;
+      });
+    });
+  </script>
+</body>
+</html>
