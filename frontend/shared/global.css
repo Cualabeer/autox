@@ -1,245 +1,86 @@
-/* ===== Reset & Base Styles ===== */
-*,
-*::before,
-*::after {
+/* Reset and basic styles */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fff;
-  color: #111;
-  line-height: 1.5;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-}
-
-/* ===== Links ===== */
-a {
-  color: #ff6600;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover,
-a:focus {
-  color: #e65c00;
-  outline: none;
-}
-
-/* ===== Headings ===== */
-h1, h2, h3, h4, h5, h6 {
-  color: #003f88;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0.5em;
-}
-
-h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-/* ===== Buttons ===== */
-button {
-  cursor: pointer;
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: background-color 0.3s ease;
+  scroll-behavior: smooth;
   user-select: none;
 }
 
-button:hover,
-button:focus {
-  background-color: #e65c00;
-  outline: none;
+body {
+  background-color: #fff;
+  color: #333;
+  min-height: 100vh;
+  line-height: 1.6;
 }
 
-/* ===== Header ===== */
-.header {
+header.header {
   background-color: #003f88;
   color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  user-select: none;
 }
 
-.header .logo {
+header .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
 }
 
-.hamburger {
+button.hamburger {
   background: none;
   border: none;
   font-size: 1.8rem;
   color: white;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* ===== Forms ===== */
-form {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+button.hamburger:focus {
+  outline: 2px solid #ff6600;
+  outline-offset: 2px;
 }
 
-label {
-  display: block;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: #003f88;
+/* --- Carousel Wrapper --- */
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 640px;
+  margin: 1rem auto;
 }
 
-input[type="text"],
-input[type="datetime-local"],
-select,
-textarea {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.3s ease;
-  resize: vertical;
-}
-
-input[type="text"]:focus,
-input[type="datetime-local"]:focus,
-select:focus,
-textarea:focus {
-  border-color: #ff6600;
+/* --- Vertical Carousel --- */
+.vertical-carousel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  height: 80vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 1rem;
   outline: none;
 }
 
-textarea {
-  min-height: 100px;
-}
-
-/* ===== Status Messages ===== */
-#statusMsg {
-  max-width: 600px;
-  margin: 1rem auto;
-  font-weight: 700;
-  text-align: center;
-  color: #003f88;
-}
-
-/* ===== Floating Action Button ===== */
-.fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  padding: 1rem 1.2rem;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  cursor: pointer;
-  z-index: 200;
-  transition: background-color 0.3s ease;
-}
-
-.fab:hover {
-  background-color: #e65c00;
-}
-
-/* ===== Modal ===== */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 300;
-}
-
-.modal.hidden {
+/* Hide scrollbar in WebKit */
+.vertical-carousel::-webkit-scrollbar {
   display: none;
 }
 
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  max-width: 90%;
-  text-align: center;
-}
-
-.modal-content h2 {
-  margin-bottom: 1rem;
-  color: #003f88;
-}
-
-.modal-content button {
-  display: block;
-  width: 100%;
-  margin: 0.5rem 0;
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #003f88;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.modal-content button:hover {
-  background-color: #002e66;
-}
-
-.modal-content .cancel {
-  background-color: #ccc;
-  color: #111;
-}
-
-.modal-content .cancel:hover {
-  background-color: #bbb;
-}
-
-/* ===== Card Carousel ===== */
-.carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.carousel::-webkit-scrollbar {
-  display: none;
-}
-
-.card {
-  flex: 0 0 80%;
+/* Each card */
+.vertical-carousel .card {
+  flex: 0 0 80vh;
   scroll-snap-align: start;
   background: #f7f7f7;
   border-radius: 12px;
@@ -251,24 +92,25 @@ textarea {
   justify-content: space-between;
   transition: background-color 0.3s ease;
   user-select: none;
+  margin-bottom: 1rem;
 }
 
-.card:hover {
+.vertical-carousel .card:hover {
   background-color: #eaeaea;
 }
 
-.card h2 {
+.vertical-carousel .card h2 {
   color: #003f88;
   margin-bottom: 0.5rem;
 }
 
-.card p {
+.vertical-carousel .card p {
   color: #333;
   font-size: 1rem;
   margin-bottom: 1.5rem;
 }
 
-.card button {
+.vertical-carousel .card button {
   background-color: #ff6600;
   color: white;
   border: none;
@@ -280,62 +122,73 @@ textarea {
   transition: background-color 0.3s ease;
 }
 
-.card button:hover {
+.vertical-carousel .card button:hover {
   background-color: #e65c00;
+}
+
+/* --- Carousel Navigation --- */
+.carousel-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  width: 50px;
+  user-select: none;
+}
+
+.carousel-nav .nav-arrow {
+  background-color: #003f88;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-nav .nav-arrow:hover,
+.carousel-nav .nav-arrow:focus {
+  background-color: #002e66;
+  outline: none;
+}
+
+/* --- Pagination Dots --- */
+.pagination-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-dots .dot {
+  width: 12px;
+  height: 12px;
+  background-color: #ccc;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-dots .dot[aria-selected="true"] {
+  background-color: #ff6600;
+}
+
+.pagination-dots .dot:hover,
+.pagination-dots .dot:focus {
+  background-color: #e65c00;
+  outline: none;
 }
 
 /* Responsive adjustments */
 @media (min-width: 768px) {
-  .card {
-    flex: 0 0 30%;
-  }
-}
-/* Vertical Carousel Container */
-.vertical-carousel {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  height: 80vh;  /* restrict height so scrolling works */
-  gap: 1rem;
-  padding: 1rem;
-}
-
-/* Hide vertical scrollbar on WebKit */
-.vertical-carousel::-webkit-scrollbar {
-  display: none;
-}
-
-/* Each card inside vertical carousel */
-.vertical-carousel .card {
-  flex: 0 0 80vh; /* each card fills most viewport height */
-  scroll-snap-align: start;
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-.vertical-carousel .card:hover {
-  background-color: #eaeaea;
-}
-
-/* Responsive: for desktop, maybe smaller height */
-@media (min-width: 768px) {
   .vertical-carousel {
     height: 70vh;
-    max-width: 600px;
-    margin: 0 auto;
   }
   .vertical-carousel .card {
     flex: 0 0 70vh;
   }
 }
-
