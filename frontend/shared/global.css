@@ -1,4 +1,4 @@
-/* Reset and basic styles */
+/* Reset and base styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -95,8 +95,10 @@ button.hamburger:focus {
   margin-bottom: 1rem;
 }
 
-.vertical-carousel .card:hover {
+.vertical-carousel .card:hover,
+.vertical-carousel .card:focus {
   background-color: #eaeaea;
+  outline: none;
 }
 
 .vertical-carousel .card h2 {
@@ -122,8 +124,10 @@ button.hamburger:focus {
   transition: background-color 0.3s ease;
 }
 
-.vertical-carousel .card button:hover {
+.vertical-carousel .card button:hover,
+.vertical-carousel .card button:focus {
   background-color: #e65c00;
+  outline: none;
 }
 
 /* --- Carousel Navigation --- */
@@ -183,12 +187,52 @@ button.hamburger:focus {
   outline: none;
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) {
-  .vertical-carousel {
-    height: 70vh;
-  }
-  .vertical-carousel .card {
-    flex: 0 0 70vh;
-  }
+/* Forms styling for booking page */
+
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #003f88;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus,
+textarea:focus {
+  border-color: #ff6600;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+button[type="submit"] {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+  background-color: #e65c00;
+  outline: none;
 }
