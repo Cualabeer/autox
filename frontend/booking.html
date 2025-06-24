@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AutoX Booking with GPS</title>
-  <link rel="stylesheet" href="/shared/global.css" />
+  <link rel="stylesheet" href="../shared/global.css" />
   <style>
     main {
       max-width: 600px;
@@ -78,7 +78,6 @@
   </main>
 
   <script>
-    // Service type mapping
     const typeMap = {
       service: {
         title: "Book a Service",
@@ -99,7 +98,6 @@
       return urlParams.get(param);
     }
 
-    // Initialize booking page
     const bookingType = getQueryParam('type') || 'service';
     const bookingTitle = document.getElementById('bookingTitle');
     const bookingDesc = document.getElementById('bookingDesc');
@@ -133,7 +131,6 @@
       const { latitude, longitude } = position.coords;
       gpsStatus.textContent = `Coordinates found: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}. Looking up address...`;
 
-      // OpenStreetMap Nominatim API for reverse geocoding
       const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
 
       fetch(url)
@@ -166,7 +163,7 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      // You can add backend submission here
+      // TODO: Send data to backend API here if desired
       form.style.display = 'none';
       successMsg.style.display = 'block';
     });
