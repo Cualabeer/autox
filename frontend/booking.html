@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoX Booking with GPS</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <title>AutoX Booking</title>
+  <link rel="stylesheet" href="shared/global.css" />
   <style>
     main {
       max-width: 600px;
@@ -14,30 +14,76 @@
     form > * + * {
       margin-top: 1rem;
     }
+    label {
+      font-weight: 600;
+      color: #003f88;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    input[type="text"],
+    input[type="datetime-local"],
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus,
+    input[type="datetime-local"]:focus,
+    textarea:focus {
+      border-color: #ff6600;
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button[type="submit"], #gpsBtn {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button[type="submit"]:hover,
+    button[type="submit"]:focus,
+    #gpsBtn:hover,
+    #gpsBtn:focus {
+      background-color: #e65c00;
+      outline: none;
+    }
+    #gpsBtn {
+      margin-left: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    #gpsStatus {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+      min-height: 1.2em;
+    }
     #successMsg {
       color: green;
       font-weight: 700;
       margin-top: 1rem;
       display: none;
     }
-    #gpsBtn {
-      margin-left: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      background-color: #003f88;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      transition: background-color 0.3s ease;
+    /* Flex container for address + GPS button */
+    .address-container {
+      display: flex;
+      align-items: center;
     }
-    #gpsBtn:hover {
-      background-color: #002e66;
-    }
-    #gpsStatus {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #555;
+    .address-container input {
+      flex: 1;
     }
   </style>
 </head>
@@ -51,20 +97,20 @@
     <h1 id="bookingTitle">Booking</h1>
     <p id="bookingDesc">Please fill out the form below.</p>
 
-    <form id="bookingForm">
+    <form id="bookingForm" novalidate>
       <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required />
+      <input type="text" id="name" name="name" required autocomplete="name" />
 
       <label for="phone">Phone Number</label>
-      <input type="text" id="phone" name="phone" required />
+      <input type="text" id="phone" name="phone" required autocomplete="tel" />
 
       <label for="datetime">Preferred Date & Time</label>
       <input type="datetime-local" id="datetime" name="datetime" required />
 
       <label for="address">Address or GPS Coordinates</label>
-      <div style="display:flex; align-items:center;">
-        <input type="text" id="address" name="address" placeholder="123 Main St or lat,long" required style="flex:1;" />
-        <button type="button" id="gpsBtn" aria-label="Use my current location">📍 Use My Location</button>
+      <div class="address-container">
+        <input type="text" id="address" name="address" placeholder="123 Main St or lat,long" required autocomplete="street-address" />
+        <button type="button" id="gpsBtn" aria-label="Use my current location" title="Use my current location">📍</button>
       </div>
       <div id="gpsStatus" role="status" aria-live="polite"></div>
 
@@ -74,10 +120,11 @@
       <button type="submit">Submit Booking</button>
     </form>
 
-    <div id="successMsg">Thank you! Your booking has been received.</div>
+    <div id="successMsg" role="alert" tabindex="0">Thank you! Your booking has been received.</div>
   </main>
 
   <script>
+    // Titles and descriptions based on booking type param
     const typeMap = {
       service: {
         title: "Book a Service",
@@ -94,8 +141,7 @@
     };
 
     function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
+      return new URLSearchParams(window.location.search).get(param);
     }
 
     const bookingType = getQueryParam('type') || 'service';
@@ -107,6 +153,7 @@
       bookingDesc.textContent = typeMap[bookingType].desc;
     }
 
+    // GPS button and reverse geocoding
     const gpsBtn = document.getElementById('gpsBtn');
     const gpsStatus = document.getElementById('gpsStatus');
     const addressInput = document.getElementById('address');
@@ -158,14 +205,23 @@
       gpsBtn.disabled = false;
     }
 
+    // Form submission (replace with backend API call if needed)
     const form = document.getElementById('bookingForm');
     const successMsg = document.getElementById('successMsg');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      // TODO: Send data to backend API here if desired
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Here you could send the form data to your backend via fetch/AJAX
+
       form.style.display = 'none';
       successMsg.style.display = 'block';
+      successMsg.focus();
     });
   </script>
 </body>
