@@ -120,6 +120,13 @@
       margin-bottom: 1.5rem;
       user-select: none;
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      white-space: pre-line;
+    }
+    #serviceDesc {
+      color: #003f88;
+      font-weight: 600;
+      margin-top: 0.3rem;
+      white-space: pre-line;
     }
     :focus-visible {
       outline: 3px solid #ff6600;
@@ -162,7 +169,7 @@
       <option value="recovery">Emergency Recovery</option>
       <option value="inspection">Diagnostics & Inspection</option>
     </select>
-    <p id="serviceDesc" style="color:#003f88; font-weight:600; margin-top:0.3rem;"></p>
+    <p id="serviceDesc"></p>
 
     <div id="serviceSummary" role="region" aria-live="polite"></div>
 
@@ -223,7 +230,14 @@
     const pricing = {
       service: {
         name: "Routine Service",
-        priceText: "Prices from £50 (Oil & Filter Change) up to £100 (Brake Discs & Pads)",
+        priceText:
+`Includes high-value services:
+• Brake Discs & Pads (Front or Rear) — £100
+• Brake Pads (Front or Rear) — £70
+• Oil & Filter Change — £50
+• Spark Plug Replacement (Petrol) — ~£85
+• Coolant Flush & Refill — ~£95
+Prices include labor.`,
         priceValue: 50
       },
       recovery: {
@@ -266,7 +280,7 @@
     function updateServiceUI(serviceKey) {
       const item = pricing[serviceKey];
       serviceDesc.textContent = item?.priceText || '';
-      serviceSummary.textContent = item ? `${item.name} — ${item.priceText}` : "Service selected: Unknown";
+      serviceSummary.textContent = item ? `${item.name} — See details below.` : "Service selected: Unknown";
       document.getElementById('bookingTitle').textContent = item?.name || "Booking";
       document.getElementById('bookingDesc').textContent = item?.priceText || "Please fill out the form below.";
       updateBasket(serviceKey);
@@ -337,7 +351,6 @@
         return;
       }
       // TODO: Replace with real submission to backend
-      // Example payload:
       /*
       const payload = {
         name: form.name.value,
