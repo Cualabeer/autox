@@ -1,278 +1,44 @@
-/* ================================
-   Global CSS for AutoX Booking App
-   ================================ */
-
-/* --- Reset and Base Styles --- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html, body {
+body {
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
-  color: #333333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  user-select: text;
+  background: #f5f5f5;
 }
-
-body {
-  line-height: 1.5;
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-}
-
-/* --- Headings and Text --- */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: #003f88; /* Deep Blue */
-}
-
-p {
-  margin: 0 0 1rem 0;
-  font-size: 1rem;
-  color: #333333;
-}
-
-/* --- Links --- */
-a {
-  color: #ff6600; /* Orange */
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-a:hover,
-a:focus {
-  color: #e65c00;
-  outline: none;
-}
-
-/* --- Header --- */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #003f88; /* Blue */
+  background: #003f88;
   color: white;
-  padding: 1rem 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  user-select: none;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 1rem;
 }
-
 .logo {
-  user-select: none;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
-
-.hamburger {
-  background: none;
-  border: none;
+main {
+  padding: 1rem;
+}
+input, select, textarea, button {
+  margin-top: 0.5rem;
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+#basketOverlay {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 60px;
+  height: 60px;
+  background: #ff6600;
   color: white;
-  font-size: 1.75rem;
-  cursor: pointer;
-  user-select: none;
-  padding: 0.25rem;
-  transition: color 0.3s ease;
-}
-
-.hamburger:hover,
-.hamburger:focus {
-  color: #ff6600;
-  outline: none;
-}
-
-/* --- Vertical Fullscreen Carousel --- */
-.vertical-carousel {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.vertical-carousel::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}
-
-.card {
-  position: relative;
-  height: 100vh;
-  scroll-snap-align: start;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  cursor: pointer;
-  user-select: none;
-  padding: 2rem;
-  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 0.75rem;
+  z-index: 1000;
   text-align: center;
-  transition: background-color 0.3s ease, filter 0.3s ease;
-}
-
-.card:nth-child(1) {
-  background: #003f88; /* Blue */
-}
-
-.card:nth-child(2) {
-  background: #ff6600; /* Orange */
-}
-
-.card:nth-child(3) {
-  background: #0055aa; /* Darker Blue */
-}
-
-.card:hover,
-.card:focus {
-  filter: brightness(1.1);
-  outline: none;
-}
-
-/* Label inside card at bottom center */
-.card-label {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.25rem;
-  font-weight: 600;
-  background: rgba(0,0,0,0.4);
-  padding: 0.3rem 1rem;
-  border-radius: 12px;
-  user-select: none;
-  pointer-events: none;
-  color: #fff;
-  letter-spacing: 0.05em;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* --- Page Counter Overlay --- */
-#pageCounter {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  user-select: none;
-  z-index: 9999;
-  pointer-events: none;
-  font-family: monospace;
-}
-
-/* --- Forms --- */
-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-  color: #003f88;
-}
-
-input[type="text"],
-input[type="datetime-local"],
-textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #aaa;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-
-input[type="text"]:focus,
-input[type="datetime-local"]:focus,
-textarea:focus {
-  border-color: #ff6600;
-  outline: none;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-button[type="submit"], #gpsBtn {
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-button[type="submit"]:hover,
-button[type="submit"]:focus,
-#gpsBtn:hover,
-#gpsBtn:focus {
-  background-color: #e65c00;
-  outline: none;
-}
-
-/* GPS button styling */
-#gpsBtn {
-  margin-left: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  user-select: none;
-}
-
-/* Address + GPS button container */
-.address-container {
-  display: flex;
-  align-items: center;
-}
-
-.address-container input {
-  flex: 1;
-}
-
-/* Success message */
-#successMsg {
-  color: green;
-  font-weight: 700;
-  margin-top: 1rem;
-  display: none;
-}
-
-/* Accessibility focus outlines */
-:focus-visible {
-  outline: 3px solid #ff6600;
-  outline-offset: 2px;
-}
-
-/* Responsive tweaks */
-@media (max-width: 600px) {
-  .card {
-    font-size: 2rem;
-    padding: 1.5rem;
-  }
-  #pageCounter {
-    font-size: 1rem;
-    padding: 0.2rem 0.6rem;
-  }
-  button[type="submit"], #gpsBtn {
-    font-size: 1rem;
-    padding: 0.6rem 1.2rem;
-  }
 }
