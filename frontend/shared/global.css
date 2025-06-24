@@ -1,194 +1,183 @@
-/* Reset and base styles */
-* {
+/* ================================
+   Global CSS for AutoX Booking App
+   ================================ */
+
+/* --- Reset and Base Styles --- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  scroll-behavior: smooth;
-  user-select: none;
+  background-color: #ffffff;
+  color: #333333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: text;
 }
 
 body {
-  background-color: #fff;
-  color: #333;
-  min-height: 100vh;
-  line-height: 1.6;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
-header.header {
-  background-color: #003f88;
-  color: white;
-  padding: 1rem 1.5rem;
+/* --- Headings and Text --- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #003f88; /* Deep Blue */
+}
+
+p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #333333;
+}
+
+/* --- Links --- */
+a {
+  color: #ff6600; /* Orange */
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+a:hover,
+a:focus {
+  color: #e65c00;
+  outline: none;
+}
+
+/* --- Header --- */
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #003f88; /* Blue */
+  color: white;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  user-select: none;
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+.logo {
   user-select: none;
 }
 
-header .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-button.hamburger {
+.hamburger {
   background: none;
   border: none;
-  font-size: 1.8rem;
   color: white;
+  font-size: 1.75rem;
   cursor: pointer;
   user-select: none;
+  padding: 0.25rem;
+  transition: color 0.3s ease;
 }
 
-button.hamburger:focus {
-  outline: 2px solid #ff6600;
-  outline-offset: 2px;
+.hamburger:hover,
+.hamburger:focus {
+  color: #ff6600;
+  outline: none;
 }
 
-/* --- Carousel Wrapper --- */
-.carousel-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  max-width: 640px;
-  margin: 1rem auto;
-}
-
-/* --- Vertical Carousel --- */
+/* --- Vertical Fullscreen Carousel --- */
 .vertical-carousel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+  height: 100vh;
+  overflow-y: scroll;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
-  height: 80vh;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  background: #fff;
-  padding: 1rem;
-  outline: none;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-/* Hide scrollbar in WebKit */
 .vertical-carousel::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari and Opera */
 }
 
-/* Each card */
-.vertical-carousel .card {
-  flex: 0 0 80vh;
+.card {
+  position: relative;
+  height: 100vh;
   scroll-snap-align: start;
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: background-color 0.3s ease;
-  user-select: none;
-  margin-bottom: 1rem;
-}
-
-.vertical-carousel .card:hover,
-.vertical-carousel .card:focus {
-  background-color: #eaeaea;
-  outline: none;
-}
-
-.vertical-carousel .card h2 {
-  color: #003f88;
-  margin-bottom: 0.5rem;
-}
-
-.vertical-carousel .card p {
-  color: #333;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.vertical-carousel .card button {
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  align-self: flex-start;
-  transition: background-color 0.3s ease;
-}
-
-.vertical-carousel .card button:hover,
-.vertical-carousel .card button:focus {
-  background-color: #e65c00;
-  outline: none;
-}
-
-/* --- Carousel Navigation --- */
-.carousel-nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
   align-items: center;
-  width: 50px;
-  user-select: none;
-}
-
-.carousel-nav .nav-arrow {
-  background-color: #003f88;
+  font-size: 2.5rem;
+  font-weight: 700;
   color: white;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  user-select: none;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  transition: background-color 0.3s ease, filter 0.3s ease;
 }
 
-.carousel-nav .nav-arrow:hover,
-.carousel-nav .nav-arrow:focus {
-  background-color: #002e66;
+.card:nth-child(1) {
+  background: #003f88; /* Blue */
+}
+
+.card:nth-child(2) {
+  background: #ff6600; /* Orange */
+}
+
+.card:nth-child(3) {
+  background: #0055aa; /* Darker Blue */
+}
+
+.card:hover,
+.card:focus {
+  filter: brightness(1.1);
   outline: none;
 }
 
-/* --- Pagination Dots --- */
-.pagination-dots {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
+/* Label inside card at bottom center */
+.card-label {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.25rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.4);
+  padding: 0.3rem 1rem;
+  border-radius: 12px;
+  user-select: none;
+  pointer-events: none;
+  color: #fff;
+  letter-spacing: 0.05em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.pagination-dots .dot {
-  width: 12px;
-  height: 12px;
-  background-color: #ccc;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* --- Page Counter Overlay --- */
+#pageCounter {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  user-select: none;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: monospace;
 }
 
-.pagination-dots .dot[aria-selected="true"] {
-  background-color: #ff6600;
-}
-
-.pagination-dots .dot:hover,
-.pagination-dots .dot:focus {
-  background-color: #e65c00;
-  outline: none;
-}
-
-/* Forms styling for booking page */
-
+/* --- Forms --- */
 form label {
   display: block;
   font-weight: 600;
@@ -205,6 +194,7 @@ textarea {
   border-radius: 6px;
   font-size: 1rem;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 input[type="text"]:focus,
@@ -219,7 +209,7 @@ textarea {
   min-height: 80px;
 }
 
-button[type="submit"] {
+button[type="submit"], #gpsBtn {
   background-color: #ff6600;
   color: white;
   border: none;
@@ -232,7 +222,57 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover,
-button[type="submit"]:focus {
+button[type="submit"]:focus,
+#gpsBtn:hover,
+#gpsBtn:focus {
   background-color: #e65c00;
   outline: none;
+}
+
+/* GPS button styling */
+#gpsBtn {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+/* Address + GPS button container */
+.address-container {
+  display: flex;
+  align-items: center;
+}
+
+.address-container input {
+  flex: 1;
+}
+
+/* Success message */
+#successMsg {
+  color: green;
+  font-weight: 700;
+  margin-top: 1rem;
+  display: none;
+}
+
+/* Accessibility focus outlines */
+:focus-visible {
+  outline: 3px solid #ff6600;
+  outline-offset: 2px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .card {
+    font-size: 2rem;
+    padding: 1.5rem;
+  }
+  #pageCounter {
+    font-size: 1rem;
+    padding: 0.2rem 0.6rem;
+  }
+  button[type="submit"], #gpsBtn {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
 }
