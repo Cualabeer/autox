@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoX Booking with GPS</title>
+  <link rel="stylesheet" href="/shared/global.css" />
+  <style>
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    form > * + * {
+      margin-top: 1rem;
+    }
+    #successMsg {
+      color: green;
+      font-weight: 700;
+      margin-top: 1rem;
+      display: none;
+    }
+    #gpsBtn {
+      margin-left: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background-color: #003f88;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    #gpsBtn:hover {
+      background-color: #002e66;
+    }
+    #gpsStatus {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">AutoX</div>
+  </header>
+
+  <main>
+    <h1 id="bookingTitle">Booking</h1>
+    <p id="bookingDesc">Please fill out the form below.</p>
+
+    <form id="bookingForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" required />
+
+      <label for="datetime">Preferred Date & Time</label>
+      <input type="datetime-local" id="datetime" name="datetime" required />
+
+      <label for="address">Address or GPS Coordinates</label>
+      <div style="display:flex; align-items:center;">
+        <input type="text" id="address" name="address" placeholder="123 Main St or lat,long" required style="flex:1;" />
+        <button type="button" id="gpsBtn" aria-label="Use my current location">📍 Use My Location</button>
+      </div>
+      <div id="gpsStatus" role="status" aria-live="polite"></div>
+
+      <label for="details">Additional Details</label>
+      <textarea id="details" name="details" placeholder="Describe your service needs..."></textarea>
+
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <div id="successMsg">Thank you! Your booking has been received.</div>
+  </main>
+
+  <script>
+    // Service type mapping
+    const typeMap = {
+      service: {
+        title: "Book a Service",
+        desc: "Schedule routine maintenance for your car."
+      },
+      recovery: {
+        title: "Emergency Recovery",
+        desc: "Get quick help when your car breaks down."
+      },
+      inspection: {
+        title: "Diagnostics & Inspection",
+        desc: "Mobile check-ups and fault diagnostics."
+      }
+    };
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Initialize booking page
+    const bookingType = getQueryParam('type') || 'service';
+    const bookingTitle = document.getElementById('bookingTitle');
+    const bookingDesc = document.getElementById('bookingDesc');
+
+    if (typeMap[bookingType]) {
+      bookingTitle.textContent = typeMap[bookingType].title;
+      bookingDesc.textContent = typeMap[bookingType].desc;
+    }
+
+    const gpsBtn = document.getElementById('gpsBtn');
+    const gpsStatus = document.getElementById('gpsStatus');
+    const addressInput = document.getElementById('address');
+
+    gpsBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        gpsStatus.textContent = "Geolocation is not supported by your browser.";
+        return;
+      }
+
+      gpsStatus.textContent = "Locating...";
+      gpsBtn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(success, error, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+    });
+
+    function success(position) {
+      const { latitude, longitude } = position.coords;
+      gpsStatus.textContent = `Coordinates found: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}. Looking up address...`;
+
+      // OpenStreetMap Nominatim API for reverse geocoding
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.display_name) {
+            addressInput.value = data.display_name;
+            gpsStatus.textContent = "Address autofilled from your location.";
+          } else {
+            addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+            gpsStatus.textContent = "Could not find a detailed address. Coordinates filled instead.";
+          }
+        })
+        .catch(() => {
+          addressInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+          gpsStatus.textContent = "Error fetching address. Coordinates filled instead.";
+        })
+        .finally(() => {
+          gpsBtn.disabled = false;
+        });
+    }
+
+    function error(err) {
+      gpsStatus.textContent = `Error: ${err.message}`;
+      gpsBtn.disabled = false;
+    }
+
+    const form = document.getElementById('bookingForm');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      // You can add backend submission here
+      form.style.display = 'none';
+      successMsg.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
