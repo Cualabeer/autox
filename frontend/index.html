@@ -6,8 +6,50 @@
   <title>AutoX - Home</title>
   <link rel="stylesheet" href="./shared/global.css" />
   <style>
-    /* Example button styling consistent with your theme */
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    #feature-cards {
+      margin-bottom: 2rem;
+    }
+
+    .card-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 280px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .card:hover,
+    .card:focus {
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      outline: none;
+    }
+
+    .card img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
     .btn-primary {
+      display: inline-block;
       background-color: #0077cc;
       color: white;
       border: none;
@@ -15,25 +57,21 @@
       font-size: 1.1rem;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
       text-decoration: none;
-      display: inline-block;
-      margin-top: 1rem;
+      transition: background-color 0.3s ease;
     }
+
     .btn-primary:hover,
     .btn-primary:focus {
       background-color: #005fa3;
       outline: none;
     }
-    header nav a {
-      color: #0077cc;
-      text-decoration: none;
-      margin-left: 1rem;
-      font-weight: 600;
-    }
-    header nav a:hover,
-    header nav a:focus {
-      text-decoration: underline;
+
+    @media (max-width: 600px) {
+      .card-grid {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -43,21 +81,55 @@
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
-      <!-- other menu links -->
     </nav>
   </header>
 
-  <main class="main-content">
+  <main>
     <h1>Welcome to AutoX</h1>
-    <p>Your trusted partner for all car servicing needs.</p>
+    <section id="feature-cards">
+      <h2>Featured Services</h2>
+      <div id="card-list" class="card-grid" role="list"></div>
+    </section>
 
-    <a href="services.html" class="btn-primary" aria-label="View all services">
-      View Our Services
-    </a>
-
-    <!-- Other homepage content -->
+    <a href="services.html" class="btn-primary" aria-label="View all services">View Our Services</a>
   </main>
 
   <footer class="site-footer">&copy; 2025 AutoX</footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cardList = document.getElementById("card-list");
+      if (!cardList) return;
+
+      const cards = [
+        {
+          title: "Routine Service",
+          desc: "Keep your car running smoothly with our expert routine maintenance.",
+          img: "images/routine-service.jpg",
+          link: "booking.html?type=routine"
+        },
+        {
+          title: "Emergency Recovery",
+          desc: "Fast and reliable roadside recovery when you need it most.",
+          img: "images/recovery.jpg",
+          link: "booking.html?type=recovery"
+        },
+        {
+          title: "Pre-Purchase Inspection",
+          desc: "Get peace of mind before buying a used car with our inspection service.",
+          img: "images/inspection.jpg",
+          link: "booking.html?type=inspection"
+        }
+      ];
+
+      cardList.innerHTML = cards.map(card => `
+        <div class="card" role="listitem" tabindex="0" aria-pressed="false" onclick="location.href='${card.link}'" onkeypress="if(event.key==='Enter'){location.href='${card.link}'}">
+          <img src="${card.img}" alt="${card.title}" />
+          <h3>${card.title}</h3>
+          <p>${card.desc}</p>
+        </div>
+      `).join("");
+    });
+  </script>
 </body>
 </html>
