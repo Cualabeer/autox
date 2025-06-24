@@ -2,118 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AutoX – Mobile Car Services</title>
-  <link rel="stylesheet" href="/shared/global.css" />
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #fff;
-      color: #333;
-      margin: 0;
-    }
-
-    header {
-      background: #0056b3;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    nav {
-      display: flex;
-      justify-content: flex-end;
-      background: #003d80;
-      padding: 0.5rem 1rem;
-    }
-
-    nav a {
-      color: white;
-      margin-left: 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    main {
-      padding: 2rem 1rem;
-      max-width: 900px;
-      margin: auto;
-      text-align: center;
-    }
-
-    .service-card {
-      background: #f4f4f4;
-      border-radius: 8px;
-      margin: 1rem 0;
-      padding: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .service-card h2 {
-      color: #0056b3;
-    }
-
-    .service-card p {
-      font-size: 1rem;
-      margin: 1rem 0;
-    }
-
-    .service-card a {
-      display: inline-block;
-      background: orange;
-      color: white;
-      padding: 0.75rem 1.25rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .service-card a:hover {
-      background: darkorange;
-    }
-
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #999;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoX – Mobile Mechanic Services</title>
+  <link rel="stylesheet" href="./shared/global.css" />
 </head>
 <body>
-  <header>
-    <h1>AutoX Mobile Mechanic</h1>
-    <p>Reliable mobile car servicing at your doorstep</p>
+  <header class="site-header">
+    <div class="logo">AutoX</div>
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+    </nav>
   </header>
 
-  <nav>
-    <a href="/">Home</a>
-    <a href="/booking.html?category=routine">Book a Service</a>
-    <a href="/admin.html">Admin</a>
-  </nav>
+  <main class="main-content">
+    <h1>Fast. Reliable. Mobile Mechanic Services.</h1>
+    <p>Select the service you need below:</p>
 
-  <main>
-    <div class="service-card">
-      <h2>Routine Service</h2>
-      <p>Book oil changes, brake replacements, and general servicing.</p>
-      <a href="/booking.html?category=routine">Book Routine</a>
-    </div>
-
-    <div class="service-card">
-      <h2>Emergency Recovery</h2>
-      <p>Broken down? Request fast roadside assistance.</p>
-      <a href="/booking.html?category=recovery">Get Recovery Help</a>
-    </div>
-
-    <div class="service-card">
-      <h2>Vehicle Inspection</h2>
-      <p>Need diagnostics or a pre-purchase check? Book an inspection today.</p>
-      <a href="/booking.html?category=inspection">Book Inspection</a>
+    <div class="service-buttons">
+      <a href="booking.html?type=routine" class="btn blue">Routine Service</a>
+      <a href="booking.html?type=recovery" class="btn orange">Emergency Recovery</a>
+      <a href="booking.html?type=inspection" class="btn grey">Pre-Purchase Inspection</a>
     </div>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     &copy; 2025 AutoX. All rights reserved.
   </footer>
+
+  <script src="./js/main.js"></script>
 </body>
 </html>
