@@ -8,7 +8,7 @@
   <style>
     main {
       max-width: 600px;
-      margin: 2rem auto;
+      margin: 2rem auto 5rem auto; /* bottom margin for basket overlay */
       padding: 0 1rem;
     }
     form > * + * {
@@ -85,6 +85,68 @@
     .address-container input {
       flex: 1;
     }
+    /* Basket overlay circle bottom-right */
+    #basketOverlay {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 70px;
+      height: 70px;
+      background-color: #ff6600;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      color: white;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      user-select: none;
+      cursor: default;
+      z-index: 10000;
+      text-align: center;
+      padding: 8px;
+      line-height: 1.2;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Service summary box */
+    #serviceSummary {
+      background: #ff6600;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    /* Accessibility focus outlines */
+    :focus-visible {
+      outline: 3px solid #ff6600;
+      outline-offset: 2px;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      main {
+        margin: 1rem auto 6rem auto;
+      }
+      #basketOverlay {
+        width: 60px;
+        height: 60px;
+        font-size: 0.8rem;
+        padding: 6px;
+      }
+      #serviceSummary {
+        font-size: 1.1rem;
+        padding: 0.8rem 1rem;
+      }
+      button[type="submit"], #gpsBtn {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -96,6 +158,8 @@
   <main>
     <h1 id="bookingTitle">Booking</h1>
     <p id="bookingDesc">Please fill out the form below.</p>
+
+    <div id="serviceSummary" role="region" aria-live="polite"></div>
 
     <form id="bookingForm" novalidate>
       <label for="name">Full Name</label>
@@ -109,7 +173,14 @@
 
       <label for="address">Address or GPS Coordinates</label>
       <div class="address-container">
-        <input type="text" id="address" name="address" placeholder="123 Main St or lat,long" required autocomplete="street-address" />
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="123 Main St or lat,long"
+          required
+          autocomplete="street-address"
+        />
         <button type="button" id="gpsBtn" aria-label="Use my current location" title="Use my current location">📍</button>
       </div>
       <div id="gpsStatus" role="status" aria-live="polite"></div>
@@ -117,40 +188,77 @@
       <label for="details">Additional Details</label>
       <textarea id="details" name="details" placeholder="Describe your service needs..."></textarea>
 
+      <!-- Hidden input to include price with submission -->
+      <input type="hidden" id="servicePrice" name="servicePrice" value="" />
+
       <button type="submit">Submit Booking</button>
     </form>
 
     <div id="successMsg" role="alert" tabindex="0">Thank you! Your booking has been received.</div>
   </main>
 
-  <script>
-    // Titles and descriptions based on booking type param
-    const typeMap = {
-      service: {
-        title: "Book a Service",
-        desc: "Schedule routine maintenance for your car."
-      },
-      recovery: {
-        title: "Emergency Recovery",
-        desc: "Get quick help when your car breaks down."
-      },
-      inspection: {
-        title: "Diagnostics & Inspection",
-        desc: "Mobile check-ups and fault diagnostics."
-      }
-    };
+  <!-- Basket overlay bottom-right -->
+  <div
+    id="basketOverlay"
+    aria-live="polite"
+    aria-atomic="true"
+    role="region"
+    tabindex="0"
+    >
+    <span id="basketService" style="font-size:1rem;">Service</span>
+    <span id="basketPrice" style="font-size:1.2rem;">£0</span>
+  </div>
 
+  <script>
+    // Helper to get query param
     function getQueryParam(param) {
       return new URLSearchParams(window.location.search).get(param);
     }
 
+    // Pricing data for services
+    const pricing = {
+      service: {
+        name: "Routine Service",
+        priceText: "Prices from £50 (Oil & Filter Change) up to £100 (Brake Discs & Pads)",
+        priceValue: 50 // base price or minimum price for submission
+      },
+      recovery: {
+        name: "Emergency Recovery",
+        priceText: "Call-out fees apply; pricing varies by distance and urgency",
+        priceValue: 0 // price varies, 0 means variable
+      },
+      inspection: {
+        name: "Diagnostics & Inspection",
+        priceText: "Diagnostics start at £70; includes detailed vehicle inspection",
+        priceValue: 70
+      }
+    };
+
     const bookingType = getQueryParam('type') || 'service';
+
     const bookingTitle = document.getElementById('bookingTitle');
     const bookingDesc = document.getElementById('bookingDesc');
+    const serviceSummary = document.getElementById('serviceSummary');
+    const basketService = document.getElementById('basketService');
+    const basketPrice = document.getElementById('basketPrice');
+    const servicePriceInput = document.getElementById('servicePrice');
 
-    if (typeMap[bookingType]) {
-      bookingTitle.textContent = typeMap[bookingType].title;
-      bookingDesc.textContent = typeMap[bookingType].desc;
+    if (pricing[bookingType]) {
+      const { name, priceText, priceValue } = pricing[bookingType];
+
+      bookingTitle.textContent = name;
+      bookingDesc.textContent = priceText;
+      serviceSummary.textContent = `${name} — ${priceText}`;
+      basketService.textContent = name;
+      basketPrice.textContent = priceValue > 0 ? `£${priceValue}` : "Varies";
+      servicePriceInput.value = priceValue;
+    } else {
+      bookingTitle.textContent = "Booking";
+      bookingDesc.textContent = "Please fill out the form below.";
+      serviceSummary.textContent = "Service selected: Unknown";
+      basketService.textContent = "Unknown";
+      basketPrice.textContent = "£0";
+      servicePriceInput.value = 0;
     }
 
     // GPS button and reverse geocoding
@@ -205,7 +313,7 @@
       gpsBtn.disabled = false;
     }
 
-    // Form submission (replace with backend API call if needed)
+    // Form submission handler
     const form = document.getElementById('bookingForm');
     const successMsg = document.getElementById('successMsg');
 
@@ -217,7 +325,20 @@
         return;
       }
 
-      // Here you could send the form data to your backend via fetch/AJAX
+      // TODO: Replace this alert with real backend submission (e.g., fetch API)
+      // Example payload:
+      /*
+      const payload = {
+        name: form.name.value,
+        phone: form.phone.value,
+        datetime: form.datetime.value,
+        address: form.address.value,
+        details: form.details.value,
+        serviceType: bookingType,
+        price: servicePriceInput.value,
+      };
+      console.log('Submit booking:', payload);
+      */
 
       form.style.display = 'none';
       successMsg.style.display = 'block';
