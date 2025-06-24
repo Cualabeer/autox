@@ -1,22 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const prisma = require('../db');
-
-router.post('/', async (req, res) => {
-  const { service, time, description, location } = req.body;
+// POST /bookings
+app.post('/bookings', async (req, res) => {
+  const { type, reg, make_model, datetime, location, notes } = req.body;
   try {
     const booking = await prisma.booking.create({
-      data: { service, time, description, location },
+      data: { type, reg, make_model, datetime: new Date(datetime), location, notes }
     });
-    res.json(booking);
+    res.json({ message: "Booking received", booking });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
-
-router.get('/', async (req, res) => {
-  const bookings = await prisma.booking.findMany({ orderBy: { createdAt: 'desc' } });
-  res.json(bookings);
-});
-
-module.exports = router;
