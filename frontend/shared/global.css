@@ -290,3 +290,52 @@ textarea {
     flex: 0 0 30%;
   }
 }
+/* Vertical Carousel Container */
+.vertical-carousel {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  height: 80vh;  /* restrict height so scrolling works */
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Hide vertical scrollbar on WebKit */
+.vertical-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each card inside vertical carousel */
+.vertical-carousel .card {
+  flex: 0 0 80vh; /* each card fills most viewport height */
+  scroll-snap-align: start;
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.vertical-carousel .card:hover {
+  background-color: #eaeaea;
+}
+
+/* Responsive: for desktop, maybe smaller height */
+@media (min-width: 768px) {
+  .vertical-carousel {
+    height: 70vh;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .vertical-carousel .card {
+    flex: 0 0 70vh;
+  }
+}
+
