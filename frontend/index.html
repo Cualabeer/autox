@@ -2,96 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoX – Mobile Vehicle Assistance</title>
-  <link rel="stylesheet" href="shared/global.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoX Booking</title>
+  <link rel="stylesheet" href="/shared/global.css" />
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container">
-      <div class="logo">AutoX</div>
-      <nav class="nav" role="navigation" aria-label="Primary Navigation">
-        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation">&#9776;</button>
-        <ul class="nav-links" id="primary-navigation">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="#bookingModal" onclick="toggleModal(); return false;">Book a Service</a></li>
-          <li><a href="mechanic.html">For Mechanics</a></li>
-          <li><a href="admin.html">Admin Login</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header class="header">
+    <div class="logo">AutoX</div>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
   </header>
 
-  <!-- Main Hero -->
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1>Fast, Reliable Mobile Mechanic Help</h1>
-        <p>Whether stranded or need scheduled maintenance, AutoX connects you with certified mobile technicians.</p>
-        <a href="#bookingModal" class="cta-button" onclick="toggleModal(); return false;">Book a Service</a>
-      </div>
-    </section>
+  <main class="booking-form">
+    <h1>Book Your Car Service</h1>
+    <form id="serviceForm">
+      <label>Service Type:
+        <select name="type" required>
+          <option value="normal">Normal</option>
+          <option value="emergency">Emergency</option>
+        </select>
+      </label>
+
+      <label>Vehicle Reg:
+        <input type="text" name="reg" required />
+      </label>
+
+      <label>Make & Model:
+        <input type="text" name="make_model" required />
+      </label>
+
+      <label>Preferred Date/Time:
+        <input type="datetime-local" name="datetime" required />
+      </label>
+
+      <label>Location:
+        <input type="text" name="location" placeholder="Postcode or address" required />
+      </label>
+
+      <label>Extra Notes:
+        <textarea name="notes" placeholder="Tell us more..."></textarea>
+      </label>
+
+      <button type="submit">Book Now</button>
+    </form>
+
+    <div id="statusMsg"></div>
   </main>
 
-  <!-- Floating Book Button -->
-  <button class="book-button" onclick="toggleModal()">Book a Service</button>
-
-  <!-- Booking Modal -->
-  <div class="modal-overlay" id="bookingModal" style="display:none;">
-    <div class="modal">
-      <h2>Book a Service</h2>
-      <form id="bookingForm">
-        <label for="service">Service Type</label>
-        <select id="service" required>
-          <option value="">-- Choose --</option>
-          <option value="Flat Tyre">Flat Tyre</option>
-          <option value="Battery Issue">Battery Issue</option>
-          <option value="Engine Trouble">Engine Trouble</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <label for="time">Preferred Time</label>
-        <input type="datetime-local" id="time" required />
-
-        <label for="description">Description</label>
-        <textarea id="description" rows="3" placeholder="Optional details..."></textarea>
-
-        <label for="location">Location</label>
-        <input type="text" id="location" placeholder="Postcode or Street Address" required />
-
-        <div class="modal-buttons">
-          <button type="submit" class="submit-btn">Submit</button>
-          <button type="button" class="cancel-btn" onclick="toggleModal()">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- JS Script -->
   <script>
-    function toggleModal() {
-      const modal = document.getElementById('bookingModal');
-      modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-    }
-
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    hamburger.addEventListener('click', () => {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', !expanded);
-      navLinks.classList.toggle('show');
-    });
-
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    document.getElementById("serviceForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      alert('Booking submitted! (Backend integration coming soon)');
-      toggleModal();
-      this.reset();
-    });
-  </script>
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
 
+      const res = await fetch("https://your-api-url/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      document.getElementById("statusMsg").innerText = result.message || "Submitted!";
+    });
+
+    function toggleMenu() {
+      alert("Menu clicked — future nav goes here.");
+    }
+  </script>
 </body>
 </html>
