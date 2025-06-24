@@ -48,9 +48,9 @@
       alert("Menu clicked.");
     }
 
-    function goToBooking(type) {
-      window.location.href = `shared/booking.html?type=${encodeURIComponent(type)}`;
-    }
+    window.location.href = `booking.html?type=${encodeURIComponent(type)}`;
+// or in HTML
+<a href="booking.html">Booking Page</a>
 
     document.addEventListener("DOMContentLoaded", () => {
       const carousel = document.querySelector(".vertical-carousel");
